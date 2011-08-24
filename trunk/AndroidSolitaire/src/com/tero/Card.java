@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 public class Card {
 
@@ -12,11 +13,14 @@ public class Card {
     public int mY;	
 	public int mWidth;
 	public int mHeight;
+	
+	private Rect mRect;
     
 	public Card(Resources res, int x, int y, int width, int height, int bmpResId) {
         mBitmap = BitmapFactory.decodeResource(res, bmpResId);
         mX = x;
         mY = y;
+        mRect = new Rect(x,y,width,height);
         mHeight = height;
         mWidth = width;
         // Load and scale bitmap
@@ -33,12 +37,15 @@ public class Card {
 	{
         mX = x;
         mY = y;
+        mRect.set(x, y, mRect.width(), mRect.height());
 	}
 	
 	public boolean isUnderTouch(int x, int y)
 	{
-		// TODO:
-		return true;
+		if (mRect.contains(x,y))
+			return true;
+		else
+			return true;
 	}
 	
 }
