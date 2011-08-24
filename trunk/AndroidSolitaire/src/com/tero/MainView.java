@@ -91,9 +91,11 @@ public class MainView extends View {
 
 	private void enableCache(boolean enabled) {
 		if(enabled && mUseCache!=enabled) {
+			mActiveCard.mVisible = false;
 			setDrawingCacheEnabled(true);
-			buildDrawingCache();
+			//buildDrawingCache();
 			mCacheBitmap = Bitmap.createBitmap(getDrawingCache()); 
+			mActiveCard.mVisible = true;
 		} else if(!enabled && mUseCache!=enabled) {
 			setDrawingCacheEnabled(false);
 			mCacheBitmap = null;

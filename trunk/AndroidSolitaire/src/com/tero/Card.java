@@ -15,6 +15,7 @@ public class Card {
 	public int mHeight;
 	
 	private Rect mRect;
+	public boolean mVisible = true;
     
 	public Card(Resources res, int x, int y, int width, int height, int bmpResId) {
         mBitmap = BitmapFactory.decodeResource(res, bmpResId);
@@ -30,7 +31,8 @@ public class Card {
 	
 	
 	public void doDraw(Canvas canvas) {
-        canvas.drawBitmap(mBitmap, mX, mY, null);
+        if (mVisible)
+        	canvas.drawBitmap(mBitmap, mX, mY, null);
     }	
 	
 	public void setPos(int x, int y)
