@@ -56,7 +56,7 @@ public class MainView extends View {
 		//mCardTl.set(mCardCap, 20);
 
 		// TODO: Create cards...
-		Card c = new Card(getResources(), 10, 10, R.drawable.clubace);
+		Card c = new Card(getResources(), 10, 10, mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 
 	}
