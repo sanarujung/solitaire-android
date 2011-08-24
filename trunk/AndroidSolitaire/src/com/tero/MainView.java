@@ -24,7 +24,9 @@ public class MainView extends View {
 	private Rect mCardSize = new Rect();
 	private int cardXCap;
 	private int cardYCap;
+
 	private int mCardCap;
+	private int mCardTopMargin;
 
 	private ArrayList<Card> mCards = new ArrayList<Card>();
 	private Card mActiveCard;
@@ -47,18 +49,44 @@ public class MainView extends View {
 		mScreenSize.set(0, 0, w, h);
 
 		// TODO: calculate card and decks positions
-		int cw = w / 12;
+		int cw = w / 11;
 		mCardSize.set(0, 0, cw, (int) (cw * 1.5));
 
 		int freeSize = w - cw * 7;
-
-		mCardCap = freeSize / 8;
-		//mCardTl.set(mCardCap, 20);
-
+		mCardCap = freeSize / (6+4*2);
+		mCardTopMargin = mCardSize.height() / 5;
+		
 		// TODO: Create cards...
-		Card c = new Card(getResources(), 10, 10, mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+		int cy = (int)(mScreenSize.height()*0.4);
+		for (int i=0;i<8;i++) {
+			Card c = new Card(getResources(), mCardCap*4, cy+mCardTopMargin*i, 
+					mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+			mCards.add(c);
+		}
+
+		Card c = new Card(getResources(), mCardCap*5+mCardSize.width(), cy, 
+				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 
+		c = new Card(getResources(), mCardCap*6+mCardSize.width()*2, cy, 
+				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+		mCards.add(c);
+
+		c = new Card(getResources(), mCardCap*7+mCardSize.width()*3, cy, 
+				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+		mCards.add(c);
+	
+		c = new Card(getResources(), mCardCap*8+mCardSize.width()*4, cy, 
+				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+		mCards.add(c);
+	
+		c = new Card(getResources(), mCardCap*9+mCardSize.width()*5, cy, 
+				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+		mCards.add(c);
+
+		c = new Card(getResources(), mCardCap*10+mCardSize.width()*6, cy, 
+				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+		mCards.add(c);
 	}
 
 	private void enableCache(boolean enabled) {
@@ -149,6 +177,7 @@ public class MainView extends View {
 
 
 	// http://developer.android.com/guide/topics/graphics/2d-graphics.html
+	// http://www.higherpass.com/Android/Tutorials/Working-With-Images-In-Android/3/
 	// http://www.droidnova.com/playing-with-graphics-in-android-part-i,147.html
 /*
 	private Bitmap scaleImage(Bitmap src, int newWidth) {
