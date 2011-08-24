@@ -28,7 +28,6 @@ public class MainView extends View {
 	//private Bitmap mBmpPlayer2;
 
 	private Bitmap mCacheBitmap;
-	private Canvas mCacheCanvas;
 	private boolean mUseCache = false;
 
 	private Rect mScreenSize = new Rect();
@@ -74,18 +73,27 @@ public class MainView extends View {
 		mBmpPlayer1 = getResBitmap(R.raw.clubace, mCardSize.width(),
 				mCardSize.height());
 
-		mCacheBitmap = Bitmap.createBitmap(mScreenSize.width(),
-				mScreenSize.height(), Bitmap.Config.ARGB_8888);
+		//mCacheBitmap = Bitmap.createBitmap(mScreenSize.width(),
+		//		mScreenSize.height(), Bitmap.Config.ARGB_8888);
 
-		mCacheCanvas = new Canvas();
-		mCacheCanvas.setBitmap(mCacheBitmap);
+		//mCacheCanvas = new Canvas();
+		//mCacheCanvas.setBitmap(mCacheBitmap);
 	}
 
-	private void setToCache() {
+	private void enableCache(boolean enabled) {
 		
-		mCacheCanvas.drawRect(mScreenSize, mCanvasPaint);
-		mCacheCanvas.drawBitmap(mBmpPlayer1, mCardTl.x, mCardTl.y, mBmpPaint);
-		mUseCache = true;
+		//mCacheCanvas.drawRect(mScreenSize, mCanvasPaint);
+		//mCacheCanvas.drawBitmap(mBmpPlayer1, mCardTl.x, mCardTl.y, mBmpPaint);
+		
+		if(enabled && mUseCache!=enabled) {
+			setDrawingCacheEnabled(true);
+			buildDrawingCache();
+			mCacheBitmap = Bitmap.createBitmap(getDrawingCache()); 
+		} else if(!enabled && mUseCache!=enabled) {
+			setDrawingCacheEnabled(false);
+			mCacheBitmap = null;
+		}
+		mUseCache = enabled;
 	}
 
 	@Override
@@ -104,12 +112,12 @@ public class MainView extends View {
 			/*
 			canvas.drawBitmap(
 					mBmpPlayer1,
-					new Rect(mCardTl.x, mCardTl.y, mBmpPlayer1.getWidth(),
-							mBmpPlayer1.getHeight()),
-					new Rect(mCardTl.x, mCardTl.y, mCardSize.width(), mCardSize
-							.height()), mBmpPaint);
+					new Rect(0, 0, mBmpPlayer1.getWidth(), mBmpPlayer1.getHeight()),
+					new Rect(mCardTl.x, mCardTl.y, mCardSize.width(), mCardSize.height()), 
+					mBmpPaint);
 */
-			canvas.drawBitmap(mBmpPlayer1, mCardTl.x, mCardTl.y, mBmpPaint);
+			canvas.drawBitmap(mBmpPlayer1, mCardTl.x, mCardTl.y, null);
+			// canvas.drawBitmap(mBmpPlayer1, mCardTl.x, mCardTl.y, mBmpPaint);
 			// canvas.drawBitmap(mBmpPlayer2, 50, 50, mBmpPaint);
 
 		}
@@ -125,7 +133,8 @@ public class MainView extends View {
 			int y = (int) event.getY();
 			cardXCap = x - mCardTl.x;
 			cardYCap = y - mCardTl.y;
-			setToCache();
+			
+			enableCache(true);
 			invalidate();
 
 			// Log.v("", "down");
@@ -135,14 +144,12 @@ public class MainView extends View {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			mCardTl.set(x - cardXCap, y - cardYCap);
+
 			invalidate();
 			return true;
 
 		} else if (action == MotionEvent.ACTION_UP) {
-			int x = (int) event.getX();
-			int y = (int) event.getY();
-			//mCardTl.set(x - cardXCap, y - cardYCap);
-			mUseCache = false;
+			enableCache(false);
 			invalidate();
 			return true;
 
@@ -160,16 +167,17 @@ public class MainView extends View {
 		//Bitmap bmp = Bitmap.createScaledBitmap(b, width, height, true);
 		//return bmp;
 
-		Bitmap bmp = scaleImage(b,width);
-		return bmp;
+		//Bitmap bmp = scaleImage(b,width);
+		//return bmp;
 
 		//BitmapDrawable drawable = (BitmapDrawable) res.getDrawable(bmpResId);
 		//return drawable;
 		 
-		//return b;
+		return b;
 	}
 
 	// http://developer.android.com/guide/topics/graphics/2d-graphics.html
+	// http://www.droidnova.com/playing-with-graphics-in-android-part-i,147.html
 	
 	private Bitmap scaleImage(Bitmap src, int newWidth) {
 		int width = src.getWidth();
