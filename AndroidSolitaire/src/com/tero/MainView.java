@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -141,12 +142,14 @@ public class MainView extends View {
 		if (action == MotionEvent.ACTION_DOWN) {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
+			mActiveCard = null;
 			for (Card card : mCards) {
 				if(card.isUnderTouch(x, y))
 				{
 					mActiveCard = card;
 					cardXCap = x - mActiveCard.mX;
 					cardYCap = y - mActiveCard.mY;
+					mActiveCard.storePosition(x - cardXCap, y - cardYCap);
 					enableCache(true);
 					invalidate();
 					break;
@@ -167,6 +170,8 @@ public class MainView extends View {
 
 		} else if (action == MotionEvent.ACTION_UP) {
 			enableCache(false);
+			if(mActiveCard!=null)
+				mActiveCard.cancelMove();
 			mActiveCard = null;
 			invalidate();
 			return true;
