@@ -108,24 +108,21 @@ public class MainView extends View {
 		if (mUseCache) {
 			// Yes
 			canvas.drawBitmap(mCacheBitmap, 0, 0, null);
-			
-			// TODO: Draw active flying card
-			// Draw cards
-			for (Card card : mCards) {
-				card.doDraw(canvas);
-			}
 		} else {
 			// No
 			mCanvasPaint.setStyle(Style.FILL);
 			canvas.drawRect(mScreenSize, mCanvasPaint);
-
 			// Draw cards
 			for (Card card : mCards) {
 				card.doDraw(canvas);
 			}
 		}
 
-
+		// Draw active card last
+		if (mActiveCard!=null) {
+			mActiveCard.doDraw(canvas);
+		}
+		
 		/*
 		canvas.drawBitmap(
 				mBmpPlayer1,
@@ -148,11 +145,11 @@ public class MainView extends View {
 					mActiveCard = card;
 					cardXCap = x - mActiveCard.mX;
 					cardYCap = y - mActiveCard.mY;
+					enableCache(true);
+					invalidate();
 					break;
 				}
 			}
-			enableCache(true);
-			invalidate();
 
 			// Log.v("", "down");
 			return true;
@@ -160,9 +157,10 @@ public class MainView extends View {
 		} else if (action == MotionEvent.ACTION_MOVE) {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
-			if (mActiveCard!=null)
+			if (mActiveCard!=null) {
 				mActiveCard.setPos(x - cardXCap, y - cardYCap);
-			invalidate();
+				invalidate();
+			}
 			return true;
 
 		} else if (action == MotionEvent.ACTION_UP) {
