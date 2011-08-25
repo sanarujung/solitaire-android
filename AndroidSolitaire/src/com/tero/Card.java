@@ -15,8 +15,6 @@ import android.graphics.Rect;
 
 public class Card {
 
-	private int mX;
-    private int mY;	
 	public int mWidth;
 	public int mHeight;
 	public boolean mVisible = true;
@@ -26,6 +24,8 @@ public class Card {
 	private Bitmap mBitmap;
 	private int mOldX;
 	private int mOldY;
+	private int mX;
+    private int mY;	
 	
 	private Paint paint = new Paint();
 

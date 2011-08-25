@@ -38,10 +38,11 @@ public class Deck {
         mRect = new Rect(x,y,x+width,y+height);
 		paint.setAntiAlias(false);
 		paint.setColor(0xFFFFFFFF); // white
+		mCardTopCap = height / 5;
 	}
 
 	public void doDraw(Canvas canvas) {
-		// TODO: draw deck background rectangle
+		// Draw deck background rectangle
         Rect tmp = new Rect(mRect);
 		tmp.inset(1, 1);
 		canvas.drawRect(tmp, paint);
@@ -82,7 +83,7 @@ public class Deck {
 	}
 	
 	public void removeCard(Card removeThis) {
-		// TODO:
+		// TODO: test
 		if (mCards.contains(removeThis))
 			mCards.remove(removeThis);
 	}
