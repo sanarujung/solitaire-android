@@ -1,5 +1,7 @@
 package com.tero;
 
+import java.util.ArrayList;
+
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -11,18 +13,20 @@ public class Deck {
 	public int mY;
 	public int mWidth;
 	public int mHeight;
-	public int mZ;
+	protected int mDeckCardsInternalZ = 0;
+	public int mCardTopCap = 10;
 
 	protected Rect mRect;
 	protected Paint paint = new Paint();
+	protected ArrayList<Card> mCards = new ArrayList<Card>();
 
-	public Deck(int z, Resources res, int x, int y, int width, int height) {
-		mZ = z;
+	
+	public Deck(Resources res, int x, int y, int width, int height) {
 		mX = x;
 		mY = y;
 		mWidth = width;
 		mHeight = height;
-		
+        mRect = new Rect(x,y,x+width,y+height);
 		paint.setAntiAlias(true);
 		paint.setColor(0xFFFFFFFF); // black
 	}
@@ -30,21 +34,59 @@ public class Deck {
 	public void doDraw(Canvas canvas) {
 		// TODO: draw deck background rectangle
 		canvas.drawRect(mRect, paint);
-		// TODO: draw deck cards
 
+		// Draw cards
+		for (Card card : mCards) {
+			card.doDraw(canvas);
+		}
 	}
 
-	public void addCard(Card newCard) {
-		// TODO:
+	public void addCard(Card newCard, boolean justOnTopOfOthers) {
+
+		if (justOnTopOfOthers) {
+			// All cards are just top of other cards
+	        // Set card new position
+	        newCard.mRect = this.mRect;
+		} else {
+			// There is cap on top of all cards
+			// Change deck rectangle height
+			mHeight += mCardTopCap;
+	        mRect = new Rect(mX,mY,mX+mWidth,mY+mHeight);
+
+	        // Set card new position
+	        newCard.mRect.set(mX, 
+					mY + mCards.size()*mCardTopCap, 
+					mX+mWidth, 
+					mY + mCards.size()*mCardTopCap + newCard.mHeight);
+		}
+        
+		// TODO: remove from old deck, this code is somewhere else
+        
+		// Give new z to this most upper card in this deck
+        mDeckCardsInternalZ++;
+        newCard.mZ = mDeckCardsInternalZ;
+
+        // Add card
+        mCards.add(newCard);
 	}
 	
 	public void removeCard(Card removeThis) {
 		// TODO:
+		if (mCards.contains(removeThis))
+			mCards.remove(removeThis);
 	}
 
 	public Card getCardFromPos(int x, int y) {
 		Card c = null;
-		// TODO: return most upper card from this deck in this position
+		// Return most upper card from this deck in this position
+		for (Card card : mCards) {
+			if(card.mRect.contains(x,y)) {
+				if (c!=null && c.mZ < card.mZ)
+					c = card;
+				else if(c==null)
+					c = card;
+			}
+		}
 		return c;
 	}
 
