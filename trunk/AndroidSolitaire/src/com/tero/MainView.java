@@ -52,6 +52,7 @@ public class MainView extends View {
 		// TODO: calculate card and decks positions
 		int cw = w / 11;
 		mCardSize.set(0, 0, cw, (int) (cw * 1.5));
+		Log.v("card size", mCardSize.toString());
 
 		int freeSize = w - cw * 7;
 		mCardCap = freeSize / (6+4*2);
@@ -62,32 +63,32 @@ public class MainView extends View {
 		int z = 0;
 		for (int i=0;i<8;i++) {
 			Card c = new Card(z++,getResources(), mCardCap*4, cy+mCardTopMargin*i, 
-					mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+					mCardSize.width(), mCardSize.height(), R.raw.clubace);
 			mCards.add(c);
 		}
 
 		Card c = new Card(z++,getResources(), mCardCap*5+mCardSize.width(), cy, 
-				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
 
 		c = new Card(z++,getResources(), mCardCap*6+mCardSize.width()*2, cy, 
-				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
 
 		c = new Card(z++,getResources(), mCardCap*7+mCardSize.width()*3, cy, 
-				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
 	
 		c = new Card(z++,getResources(), mCardCap*8+mCardSize.width()*4, cy, 
-				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
 	
 		c = new Card(z++,getResources(), mCardCap*9+mCardSize.width()*5, cy, 
-				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
 
 		c = new Card(z++,getResources(), mCardCap*10+mCardSize.width()*6, cy, 
-				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
+				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
 	}
 
