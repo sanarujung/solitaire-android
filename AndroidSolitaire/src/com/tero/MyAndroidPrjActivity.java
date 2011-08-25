@@ -1,3 +1,8 @@
+
+// Tero Paananen 2011
+// tepaanan@gmail.com
+// FINLAND
+
 package com.tero;
 
 import android.app.Activity;

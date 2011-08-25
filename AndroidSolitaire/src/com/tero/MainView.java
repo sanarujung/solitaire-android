@@ -1,3 +1,8 @@
+
+// Tero Paananen 2011
+// tepaanan@gmail.com
+// FINLAND
+
 package com.tero;
 
 import java.util.ArrayList;
@@ -28,7 +33,10 @@ public class MainView extends View {
 	private int mCardCap;
 	private int mCardTopMargin;
 
-	private ArrayList<Card> mCards = new ArrayList<Card>();
+//	private ArrayList<Card> mCards = new ArrayList<Card>();
+
+	private ArrayList<Deck> mSourceDecks = new ArrayList<Deck>();
+	
 	private Card mActiveCard;
 
 	public MainView(Context context) {
@@ -57,9 +65,66 @@ public class MainView extends View {
 		mCardCap = freeSize / (6+4*2);
 		mCardTopMargin = mCardSize.height() / 5;
 		
-		// TODO: Create cards...
 		int cy = (int)(mScreenSize.height()*0.4);
-		int z = 0;
+
+		// TODO: Create cards...
+		// TODO: Suffle card list by Random
+
+		// Create source decks
+		// Add cards to the source decks
+		if (mSourceDecks.size()==0) {
+			Deck deck = new Deck(mCardCap*4, cy, mCardSize.width(), mCardSize.height());
+			Card c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+			deck.addCard(c, false);
+			mSourceDecks.add(deck);
+			
+			deck = new Deck(mCardCap*5+mCardSize.width(), cy, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<2;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, false);
+			}
+			mSourceDecks.add(deck);
+			
+			deck = new Deck(mCardCap*6+mCardSize.width()*2, cy, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<3;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, false);
+			}
+			mSourceDecks.add(deck);
+			
+			deck = new Deck(mCardCap*7+mCardSize.width()*3, cy, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<4;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, false);
+			}
+			mSourceDecks.add(deck);
+			
+			deck = new Deck(mCardCap*8+mCardSize.width()*4, cy, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<5;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, false);
+			}
+			mSourceDecks.add(deck);
+			
+			deck = new Deck(mCardCap*9+mCardSize.width()*5, cy, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<6;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, false);
+			}
+			mSourceDecks.add(deck);
+			
+			deck = new Deck(mCardCap*10+mCardSize.width()*6, cy, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<7;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, false);
+			}
+			mSourceDecks.add(deck);
+
+			
+			
+		}
+		
+		/*
 		for (int i=0;i<8;i++) {
 			Card c = new Card(z++,getResources(), mCardCap*4, cy+mCardTopMargin*i, 
 					mCardSize.width(), mCardSize.height(), R.raw.clubace);
@@ -89,6 +154,10 @@ public class MainView extends View {
 		c = new Card(z++,getResources(), mCardCap*10+mCardSize.width()*6, cy, 
 				mCardSize.width(), mCardSize.height(), R.raw.clubace);
 		mCards.add(c);
+		*/
+
+		
+		
 	}
 
 	private void enableCache(boolean enabled) {
@@ -116,9 +185,9 @@ public class MainView extends View {
 			// No
 			mCanvasPaint.setStyle(Style.FILL);
 			canvas.drawRect(mScreenSize, mCanvasPaint);
-			// Draw cards
-			for (Card card : mCards) {
-				card.doDraw(canvas);
+			// Draw decks
+			for (Deck deck : mSourceDecks) {
+				deck.doDraw(canvas);
 			}
 		}
 
@@ -145,7 +214,13 @@ public class MainView extends View {
 			int y = (int) event.getY();
 			mActiveCard = null;
 			// Search card under touch
-			for (Card card : mCards) {
+			for (Deck deck : mSourceDecks) {
+				if (deck.isUnderTouch(x, y)) {
+					mActiveCard = deck.getCardFromPos(x, y);
+					break;
+				} 
+				
+				/*
 				if(card.isUnderTouch(x, y))
 				{
 					// Take most upper card (z order)
@@ -155,11 +230,12 @@ public class MainView extends View {
 						mActiveCard = card;
 					}
 				}
+				*/
 			}
 			// Card founds?
 			if (mActiveCard!=null) {
-				cardXCap = x - mActiveCard.mX;
-				cardYCap = y - mActiveCard.mY;
+				cardXCap = x - mActiveCard.mRect.left;
+				cardYCap = y - mActiveCard.mRect.top;
 				mActiveCard.storePosition(x - cardXCap, y - cardYCap);
 				enableCache(true);
 				invalidate();
