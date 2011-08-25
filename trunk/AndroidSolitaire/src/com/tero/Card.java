@@ -14,6 +14,7 @@ public class Card {
 	public int mWidth;
 	public int mHeight;
 	public boolean mVisible = true;
+	public int mZ;
 	
 	private Bitmap mBitmap;
 	private Rect mRect;
@@ -21,8 +22,9 @@ public class Card {
 	private int mOldY;
 	
     
-	public Card(Resources res, int x, int y, int width, int height, int bmpResId) {
+	public Card(int z, Resources res, int x, int y, int width, int height, int bmpResId) {
         mBitmap = BitmapFactory.decodeResource(res, bmpResId);
+        mZ = z;
         mX = x;
         mY = y;
         mRect = new Rect(x,y,x+width,y+height);
