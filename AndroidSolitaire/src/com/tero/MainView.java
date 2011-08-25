@@ -59,33 +59,34 @@ public class MainView extends View {
 		
 		// TODO: Create cards...
 		int cy = (int)(mScreenSize.height()*0.4);
+		int z = 0;
 		for (int i=0;i<8;i++) {
-			Card c = new Card(getResources(), mCardCap*4, cy+mCardTopMargin*i, 
+			Card c = new Card(z++,getResources(), mCardCap*4, cy+mCardTopMargin*i, 
 					mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 			mCards.add(c);
 		}
 
-		Card c = new Card(getResources(), mCardCap*5+mCardSize.width(), cy, 
+		Card c = new Card(z++,getResources(), mCardCap*5+mCardSize.width(), cy, 
 				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 
-		c = new Card(getResources(), mCardCap*6+mCardSize.width()*2, cy, 
+		c = new Card(z++,getResources(), mCardCap*6+mCardSize.width()*2, cy, 
 				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 
-		c = new Card(getResources(), mCardCap*7+mCardSize.width()*3, cy, 
+		c = new Card(z++,getResources(), mCardCap*7+mCardSize.width()*3, cy, 
 				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 	
-		c = new Card(getResources(), mCardCap*8+mCardSize.width()*4, cy, 
+		c = new Card(z++,getResources(), mCardCap*8+mCardSize.width()*4, cy, 
 				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 	
-		c = new Card(getResources(), mCardCap*9+mCardSize.width()*5, cy, 
+		c = new Card(z++,getResources(), mCardCap*9+mCardSize.width()*5, cy, 
 				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 
-		c = new Card(getResources(), mCardCap*10+mCardSize.width()*6, cy, 
+		c = new Card(z++,getResources(), mCardCap*10+mCardSize.width()*6, cy, 
 				mCardSize.width(), mCardSize.height(), R.drawable.clubace);
 		mCards.add(c);
 	}
@@ -143,19 +144,27 @@ public class MainView extends View {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			mActiveCard = null;
+			// Search card under touch
 			for (Card card : mCards) {
 				if(card.isUnderTouch(x, y))
 				{
-					mActiveCard = card;
-					cardXCap = x - mActiveCard.mX;
-					cardYCap = y - mActiveCard.mY;
-					mActiveCard.storePosition(x - cardXCap, y - cardYCap);
-					enableCache(true);
-					invalidate();
-					break;
+					// Take most upper card (z order)
+					if(mActiveCard!=null && mActiveCard.mZ < card.mZ) {
+						mActiveCard = card;
+					} else if (mActiveCard==null) {
+						mActiveCard = card;
+					}
 				}
 			}
-
+			// Card founds?
+			if (mActiveCard!=null) {
+				cardXCap = x - mActiveCard.mX;
+				cardYCap = y - mActiveCard.mY;
+				mActiveCard.storePosition(x - cardXCap, y - cardYCap);
+				enableCache(true);
+				invalidate();
+			}
+			
 			// Log.v("", "down");
 			return true;
 
