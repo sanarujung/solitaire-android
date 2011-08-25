@@ -3,7 +3,9 @@ package com.tero;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -21,6 +23,8 @@ public class Card {
 	private int mOldX;
 	private int mOldY;
 	
+	private Paint paint = new Paint();
+	
     
 	public Card(int z, Resources res, int x, int y, int width, int height, int bmpResId) {
         mBitmap = BitmapFactory.decodeResource(res, bmpResId);
@@ -30,15 +34,27 @@ public class Card {
         mRect = new Rect(x,y,x+width,y+height);
         mHeight = height;
         mWidth = width;
+        
+        // For painting
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true); 
+        
         // Load and scale bitmap
-        Bitmap tmp = BitmapFactory.decodeResource(res, bmpResId);
-        mBitmap = Bitmap.createScaledBitmap(tmp, mWidth, mHeight, true);        
+        Options options = new Options();
+        options.inScaled = false;     
+        options.inDither = false;     
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;         
+        Bitmap tmp = BitmapFactory.decodeResource(res,bmpResId,options);
+        //Bitmap tmp = BitmapFactory.decodeResource(res, bmpResId);
+        mBitmap = Bitmap.createScaledBitmap(tmp, mWidth, mHeight, true);
+        
     }
 	
 	
 	public void doDraw(Canvas canvas) {
         if (mVisible)
-        	canvas.drawBitmap(mBitmap, mX, mY, null);
+        	canvas.drawBitmap(mBitmap, mX, mY, paint);
     }	
 	
 	public void setPos(int x, int y)
