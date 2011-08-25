@@ -18,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class MainView extends View {
-
 	private Paint mCanvasPaint;
 
 	private Bitmap mCacheBitmap;
@@ -29,13 +28,10 @@ public class MainView extends View {
 	private Rect mCardSize = new Rect();
 	private int cardXCap;
 	private int cardYCap;
-
 	private int mCardCap;
-	private int mCardTopMargin;
-
-//	private ArrayList<Card> mCards = new ArrayList<Card>();
 
 	private ArrayList<Deck> mSourceDecks = new ArrayList<Deck>();
+	private ArrayList<Deck> mTargetDecks = new ArrayList<Deck>();
 	
 	private Card mActiveCard;
 
@@ -56,16 +52,15 @@ public class MainView extends View {
 		// Store current screen size
 		mScreenSize.set(0, 0, w, h);
 
-		// TODO: calculate card and decks positions
+		// Calculate card and decks sizes and positions
 		int cw = w / 11;
 		mCardSize.set(0, 0, cw, (int) (cw * 1.5));
 		Log.v("card size", mCardSize.toString());
 
 		int freeSize = w - cw * 7;
 		mCardCap = freeSize / (6+4*2);
-		mCardTopMargin = mCardSize.height() / 5;
 		
-		int cy = (int)(mScreenSize.height()*0.4);
+		int cy = (int)(mScreenSize.height()*0.35);
 
 		// TODO: Create cards...
 		// TODO: Suffle card list by Random
@@ -120,41 +115,36 @@ public class MainView extends View {
 			}
 			mSourceDecks.add(deck);
 
+
+			// Create target decks
+			deck = new Deck(mCardCap*7+mCardSize.width()*3, mCardCap, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<4;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, true);
+			}
+			mTargetDecks.add(deck);
 			
+			deck = new Deck(mCardCap*8+mCardSize.width()*4, mCardCap, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<4;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, true);
+			}
+			mTargetDecks.add(deck);
 			
+			deck = new Deck(mCardCap*9+mCardSize.width()*5, mCardCap, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<4;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, true);
+			}
+			mTargetDecks.add(deck);
+
+			deck = new Deck(mCardCap*10+mCardSize.width()*6, mCardCap, mCardSize.width(), mCardSize.height());
+			for(int i=0;i<4;i++) {
+				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				deck.addCard(c, true);
+			}
+			mTargetDecks.add(deck);
 		}
-		
-		/*
-		for (int i=0;i<8;i++) {
-			Card c = new Card(z++,getResources(), mCardCap*4, cy+mCardTopMargin*i, 
-					mCardSize.width(), mCardSize.height(), R.raw.clubace);
-			mCards.add(c);
-		}
-
-		Card c = new Card(z++,getResources(), mCardCap*5+mCardSize.width(), cy, 
-				mCardSize.width(), mCardSize.height(), R.raw.clubace);
-		mCards.add(c);
-
-		c = new Card(z++,getResources(), mCardCap*6+mCardSize.width()*2, cy, 
-				mCardSize.width(), mCardSize.height(), R.raw.clubace);
-		mCards.add(c);
-
-		c = new Card(z++,getResources(), mCardCap*7+mCardSize.width()*3, cy, 
-				mCardSize.width(), mCardSize.height(), R.raw.clubace);
-		mCards.add(c);
-	
-		c = new Card(z++,getResources(), mCardCap*8+mCardSize.width()*4, cy, 
-				mCardSize.width(), mCardSize.height(), R.raw.clubace);
-		mCards.add(c);
-	
-		c = new Card(z++,getResources(), mCardCap*9+mCardSize.width()*5, cy, 
-				mCardSize.width(), mCardSize.height(), R.raw.clubace);
-		mCards.add(c);
-
-		c = new Card(z++,getResources(), mCardCap*10+mCardSize.width()*6, cy, 
-				mCardSize.width(), mCardSize.height(), R.raw.clubace);
-		mCards.add(c);
-		*/
 
 		
 		
@@ -189,21 +179,16 @@ public class MainView extends View {
 			for (Deck deck : mSourceDecks) {
 				deck.doDraw(canvas);
 			}
+			for (Deck deck : mTargetDecks) {
+				deck.doDraw(canvas);
+			}
+			
 		}
 
 		// Draw active card last
 		if (mActiveCard!=null) {
 			mActiveCard.doDraw(canvas);
 		}
-		
-		/*
-		canvas.drawBitmap(
-				mBmpPlayer1,
-				new Rect(0, 0, mBmpPlayer1.getWidth(), mBmpPlayer1.getHeight()),
-				new Rect(mCardTl.x, mCardTl.y, mCardSize.width(), mCardSize.height()), 
-				mBmpPaint);
-				*/
-
 	}
 
 	@Override
@@ -219,18 +204,6 @@ public class MainView extends View {
 					mActiveCard = deck.getCardFromPos(x, y);
 					break;
 				} 
-				
-				/*
-				if(card.isUnderTouch(x, y))
-				{
-					// Take most upper card (z order)
-					if(mActiveCard!=null && mActiveCard.mZ < card.mZ) {
-						mActiveCard = card;
-					} else if (mActiveCard==null) {
-						mActiveCard = card;
-					}
-				}
-				*/
 			}
 			// Card founds?
 			if (mActiveCard!=null) {
@@ -265,25 +238,6 @@ public class MainView extends View {
 
 	}
 
-
-	// http://developer.android.com/guide/topics/graphics/2d-graphics.html
-	// http://www.higherpass.com/Android/Tutorials/Working-With-Images-In-Android/3/
-	// http://www.droidnova.com/playing-with-graphics-in-android-part-i,147.html
-/*
-	private Bitmap scaleImage(Bitmap src, int newWidth) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-
-		float scaleWidth = ((float) newWidth) / width;
-		float ratio = ((float) src.getWidth()) / newWidth;
-		int newHeight = (int) (height / ratio);
-		float scaleHeight = ((float) newHeight) / height;
-
-		Matrix matrix = new Matrix();
-		matrix.postScale(scaleWidth, scaleHeight);
-
-		return Bitmap.createBitmap(src, 0, 0, width, height, matrix, true);
-	}
-*/
+	
 	
 }
