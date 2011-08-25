@@ -16,9 +16,9 @@ public class Card {
 	public int mHeight;
 	public boolean mVisible = true;
 	public int mZ;
+	public Rect mRect;
 	
 	private Bitmap mBitmap;
-	private Rect mRect;
 	private int mOldX;
 	private int mOldY;
 	
