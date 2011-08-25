@@ -36,6 +36,7 @@ public class Card {
         mWidth = width;
         
         // For painting
+        // TODO: not in use
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setDither(true); 
@@ -46,15 +47,14 @@ public class Card {
         options.inDither = false;     
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;         
         Bitmap tmp = BitmapFactory.decodeResource(res,bmpResId,options);
-        //Bitmap tmp = BitmapFactory.decodeResource(res, bmpResId);
         mBitmap = Bitmap.createScaledBitmap(tmp, mWidth, mHeight, true);
-        
+        tmp = null;       
     }
 	
 	
 	public void doDraw(Canvas canvas) {
         if (mVisible)
-        	canvas.drawBitmap(mBitmap, mX, mY, paint);
+        	canvas.drawBitmap(mBitmap, mX, mY, null);
     }	
 	
 	public void setPos(int x, int y)
