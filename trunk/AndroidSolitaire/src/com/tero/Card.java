@@ -1,3 +1,8 @@
+
+// Tero Paananen 2011
+// tepaanan@gmail.com
+// FINLAND
+
 package com.tero;
 
 import android.content.res.Resources;
@@ -10,8 +15,8 @@ import android.graphics.Rect;
 
 public class Card {
 
-	public int mX;
-    public int mY;	
+	private int mX;
+    private int mY;	
 	public int mWidth;
 	public int mHeight;
 	public boolean mVisible = true;
@@ -23,8 +28,14 @@ public class Card {
 	private int mOldY;
 	
 	private Paint paint = new Paint();
+
+	// TODO:
+	public enum CardLand {
+		EXXXX
+	}
+	public CardLand mCardLand;
+	public int mCardValue;
 	
-    
 	public Card(int z, Resources res, int x, int y, int width, int height, int bmpResId) {
         mBitmap = BitmapFactory.decodeResource(res, bmpResId);
         mZ = z;
@@ -54,7 +65,7 @@ public class Card {
 	
 	public void doDraw(Canvas canvas) {
         if (mVisible) {
-        	canvas.drawBitmap(mBitmap, mX, mY, null);
+        	canvas.drawBitmap(mBitmap, mRect.left, mRect.top, null);
         }
     }	
 	

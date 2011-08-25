@@ -1,8 +1,11 @@
+
+// Tero Paananen 2011
+// tepaanan@gmail.com
+// FINLAND
+
 package com.tero;
 
 import java.util.ArrayList;
-
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -20,20 +23,28 @@ public class Deck {
 	protected Paint paint = new Paint();
 	protected ArrayList<Card> mCards = new ArrayList<Card>();
 
+	// TODO:
+	public enum DeckType {
+		EXXXX
+	}
+	public DeckType mDeckType;
+
 	
-	public Deck(Resources res, int x, int y, int width, int height) {
+	public Deck(int x, int y, int width, int height) {
 		mX = x;
 		mY = y;
 		mWidth = width;
 		mHeight = height;
         mRect = new Rect(x,y,x+width,y+height);
-		paint.setAntiAlias(true);
-		paint.setColor(0xFFFFFFFF); // black
+		paint.setAntiAlias(false);
+		paint.setColor(0xFFFFFFFF); // white
 	}
 
 	public void doDraw(Canvas canvas) {
 		// TODO: draw deck background rectangle
-		canvas.drawRect(mRect, paint);
+        Rect tmp = new Rect(mRect);
+		tmp.inset(1, 1);
+		canvas.drawRect(tmp, paint);
 
 		// Draw cards
 		for (Card card : mCards) {
@@ -50,7 +61,7 @@ public class Deck {
 		} else {
 			// There is cap on top of all cards
 			// Change deck rectangle height
-			mHeight += mCardTopCap;
+			mHeight = newCard.mHeight + mCardTopCap*mCards.size();
 	        mRect = new Rect(mX,mY,mX+mWidth,mY+mHeight);
 
 	        // Set card new position
