@@ -32,6 +32,8 @@ public class MainView extends View {
 
 	private ArrayList<Deck> mSourceDecks = new ArrayList<Deck>();
 	private ArrayList<Deck> mTargetDecks = new ArrayList<Deck>();
+	private Deck mWasteDeck;
+	private Deck mWasteDeck2;
 	
 	private Card mActiveCard;
 
@@ -144,6 +146,16 @@ public class MainView extends View {
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
+			
+			// Waste decks
+			mWasteDeck = new Deck(mCardCap*4, mCardCap, mCardSize.width(), mCardSize.height());
+			c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+			mWasteDeck.addCard(c, true);
+
+			mWasteDeck2 = new Deck(mCardCap*5+mCardSize.width(), mCardCap, mCardSize.width(), mCardSize.height());
+			c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+			mWasteDeck2.addCard(c, true);
+
 		}
 
 		
@@ -182,7 +194,8 @@ public class MainView extends View {
 			for (Deck deck : mTargetDecks) {
 				deck.doDraw(canvas);
 			}
-			
+			mWasteDeck.doDraw(canvas);
+			mWasteDeck2.doDraw(canvas);
 		}
 
 		// Draw active card last
