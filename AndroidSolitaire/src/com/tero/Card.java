@@ -25,7 +25,7 @@ public class Card {
         mBitmap = BitmapFactory.decodeResource(res, bmpResId);
         mX = x;
         mY = y;
-        mRect = new Rect(x,y,width,height);
+        mRect = new Rect(x,y,x+width,y+height);
         mHeight = height;
         mWidth = width;
         // Load and scale bitmap
@@ -43,7 +43,7 @@ public class Card {
 	{
         mX = x;
         mY = y;
-        mRect.set(x, y, mRect.width(), mRect.height());
+        mRect.set(x, y, x+mRect.width(), y+mRect.height());
 	}
 	
 	public void storePosition(int x, int y)
@@ -59,14 +59,10 @@ public class Card {
 	
 	public boolean isUnderTouch(int x, int y)
 	{
-		Log.v("rec", mRect.toShortString());		
-		Log.v("x",Integer.toString(x));
-		Log.v("y",Integer.toString(y));
-		
 		if (mRect.contains(x,y))
 			return true;
 		else
-			return true; // TODO
+			return false;
 	}
 	
 }
