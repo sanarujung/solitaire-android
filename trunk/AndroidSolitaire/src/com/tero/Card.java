@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class Card {
 
@@ -37,24 +36,26 @@ public class Card {
         
         // For painting
         // TODO: not in use
-        paint.setAntiAlias(true);
+        paint.setAntiAlias(false);
         paint.setFilterBitmap(true);
         paint.setDither(true); 
         
         // Load and scale bitmap
         Options options = new Options();
         options.inScaled = false;     
-        options.inDither = false;     
+        options.inDither = true;     
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;         
+
         Bitmap tmp = BitmapFactory.decodeResource(res,bmpResId,options);
         mBitmap = Bitmap.createScaledBitmap(tmp, mWidth, mHeight, true);
-        tmp = null;       
+        tmp = null;
     }
 	
 	
 	public void doDraw(Canvas canvas) {
-        if (mVisible)
+        if (mVisible) {
         	canvas.drawBitmap(mBitmap, mX, mY, null);
+        }
     }	
 	
 	public void setPos(int x, int y)
