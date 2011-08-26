@@ -32,6 +32,7 @@ public class MainView extends View {
 
 	private ArrayList<Deck> mSourceDecks = new ArrayList<Deck>();
 	private ArrayList<Deck> mTargetDecks = new ArrayList<Deck>();
+	private ArrayList<Card> mCards = new ArrayList<Card>();
 	private Deck mWasteDeck;
 	private Deck mWasteDeck2;
 	
@@ -64,55 +65,64 @@ public class MainView extends View {
 		
 		int cy = (int)(mScreenSize.height()*0.35);
 
-		// TODO: Create cards...
+		// Create all cards
+		for(int i=0;i<13;i++) {
+			mCards.add(new Card(i, Card.CardLand.EClub, 0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace));
+			mCards.add(new Card(i, Card.CardLand.EDiamond, 0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace));
+			mCards.add(new Card(i, Card.CardLand.EHeart, 0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace));
+			mCards.add(new Card(i, Card.CardLand.ESpade, 0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace));
+		}
+		
 		// TODO: Suffle card list by Random
 
+		
+		
 		// Create source decks
 		// Add cards to the source decks
 		if (mSourceDecks.size()==0) {
 			Deck deck = new Deck(Deck.DeckType.ESource, mCardCap*4, cy, mCardSize.width(), mCardSize.height());
-			Card c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+			Card c = mCards.remove(0);
 			deck.addCard(c, false);
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*5+mCardSize.width(), cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<2;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*6+mCardSize.width()*2, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<3;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*7+mCardSize.width()*3, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*8+mCardSize.width()*4, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<5;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*9+mCardSize.width()*5, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<6;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*10+mCardSize.width()*6, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<7;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
 			mSourceDecks.add(deck);
@@ -121,40 +131,41 @@ public class MainView extends View {
 			// Create target decks
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*7+mCardSize.width()*3, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*8+mCardSize.width()*4, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*9+mCardSize.width()*5, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*10+mCardSize.width()*6, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
+				c = mCards.remove(0);
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 			
 			// Waste decks
 			mWasteDeck = new Deck(Deck.DeckType.EWaste1, mCardCap*4, mCardCap, mCardSize.width(), mCardSize.height());
-			c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
-			mWasteDeck.addCard(c, true);
+
+			while (!mCards.isEmpty()) {
+				c = mCards.remove(0);
+				mWasteDeck.addCard(c, true);
+			}
 
 			mWasteDeck2 = new Deck(Deck.DeckType.EWaste2, mCardCap*5+mCardSize.width(), mCardCap, mCardSize.width(), mCardSize.height());
-			c = new Card(0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.clubace);
-			mWasteDeck2.addCard(c, true);
 
 		}
 
