@@ -83,6 +83,10 @@ public class Deck {
         mDeckCardsInternalZ++;
         newCard.mZ = mDeckCardsInternalZ;
 
+        // Set new card to be pervious card parent
+        if (!mCards.isEmpty())
+        	mCards.get(mCards.size()-1).mParentCard = newCard;
+        
         // Add card
         mCards.add(newCard);
 	}
