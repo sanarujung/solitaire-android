@@ -108,6 +108,11 @@ public class Deck {
 					c = card;
 			}
 		}
+
+		// If card has parent, do not give it
+		if(c.mParentCard!=null) 
+			return null;
+		
 		return c;
 	}
 
