@@ -7,6 +7,7 @@ package com.tero;
 
 import java.util.ArrayList;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -39,14 +40,16 @@ public class Deck {
         mRect = new Rect(x,y,x+width,y+height);
 		mBackgroundRect = new Rect(mRect);
 		paint.setAntiAlias(false);
-		paint.setColor(0xFFFFFFFF); // white
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeWidth(2);
+		paint.setColor(Color.WHITE);
 		mCardTopCap = height / 5;
 	}
 
 	public void doDraw(Canvas canvas) {
 		// Draw deck background rectangle
         Rect tmp = new Rect(mBackgroundRect);
-		tmp.inset(1, 1);
+		tmp.inset(3, 3);
 		canvas.drawRect(tmp, paint);
 
 		// Draw cards
