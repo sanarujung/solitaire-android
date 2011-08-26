@@ -28,8 +28,6 @@ public class Card {
 	private int mX;
 	private int mY;
 
-	private Paint paint = new Paint();
-
 	public enum CardLand {
 		EClub, EDiamond, ESpade, EHeart
 	}
@@ -48,12 +46,6 @@ public class Card {
 		mRect = new Rect(x, y, x + width, y + height);
 		mHeight = height;
 		mWidth = width;
-
-		// For painting
-		// TODO: not in use
-		paint.setAntiAlias(false);
-		paint.setFilterBitmap(true);
-		paint.setDither(true);
 
 		// Load and scale bitmap
 		Options options = new Options();
