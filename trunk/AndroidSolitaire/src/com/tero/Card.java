@@ -21,6 +21,8 @@ public class Card {
 	public int mZ;
 	public Rect mRect;
 	
+	public Card mParentCard;
+	
 	private Bitmap mBitmap;
 	private int mOldX;
 	private int mOldY;
@@ -29,6 +31,7 @@ public class Card {
 	
 	private Paint paint = new Paint();
 
+	
 	// TODO:
 	public enum CardLand {
 		EXXXX
