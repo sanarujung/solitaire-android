@@ -16,6 +16,7 @@ public class Deck {
 	public int mY;
 	public int mWidth;
 	public int mHeight;
+	protected Rect mBackgroundRect;
 	protected int mDeckCardsInternalZ = 0;
 	public int mCardTopCap = 10;
 
@@ -36,6 +37,7 @@ public class Deck {
 		mWidth = width;
 		mHeight = height;
         mRect = new Rect(x,y,x+width,y+height);
+		mBackgroundRect = new Rect(mRect);
 		paint.setAntiAlias(false);
 		paint.setColor(0xFFFFFFFF); // white
 		mCardTopCap = height / 5;
@@ -43,7 +45,7 @@ public class Deck {
 
 	public void doDraw(Canvas canvas) {
 		// Draw deck background rectangle
-        Rect tmp = new Rect(mRect);
+        Rect tmp = new Rect(mBackgroundRect);
 		tmp.inset(1, 1);
 		canvas.drawRect(tmp, paint);
 
