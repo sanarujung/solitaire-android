@@ -31,10 +31,11 @@ public class Card {
 	
 	private Paint paint = new Paint();
 
-	
-	// TODO:
 	public enum CardLand {
-		EXXXX
+		EClub,
+		EDiamond,
+		ESpade,
+		EHeart
 	}
 	public CardLand mCardLand;
 	public int mCardValue;

@@ -25,14 +25,17 @@ public class Deck {
 	protected Paint paint = new Paint();
 	protected ArrayList<Card> mCards = new ArrayList<Card>();
 
-	// TODO:
 	public enum DeckType {
-		EXXXX
+		ESource,
+		ETarget,
+		EWaste1,
+		EWaste2
 	}
 	public DeckType mDeckType;
 
 	
-	public Deck(int x, int y, int width, int height) {
+	public Deck(DeckType type, int x, int y, int width, int height) {
+		mDeckType = type;
 		mX = x;
 		mY = y;
 		mWidth = width;
