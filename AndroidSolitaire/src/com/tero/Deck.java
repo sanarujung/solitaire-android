@@ -116,6 +116,10 @@ public class Deck {
 		if(c.mParentCard!=null) 
 			return null;
 		
+		// Turn card if needed
+		if (mDeckType == Deck.DeckType.ESource || mDeckType == Deck.DeckType.EWaste1)
+			c.mTurned = true;
+		
 		return c;
 	}
 
