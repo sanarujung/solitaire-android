@@ -22,6 +22,7 @@ public class Card {
 	public Rect mRect;
 
 	public Card mParentCard;
+	public Deck mOwnerDeck;
 
 	private Bitmap mBitmap;
 	private Bitmap mBackBitmap;
@@ -61,6 +62,10 @@ public class Card {
 		tmp = null;
 	}
 
+	public void setDeck(Deck d) {
+		mOwnerDeck = d;
+	}
+	
 	public void doDraw(Canvas canvas) {
 		if (mVisible) {
 			if (mTurned)
