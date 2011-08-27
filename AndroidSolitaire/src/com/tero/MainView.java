@@ -351,8 +351,10 @@ public class MainView extends View {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			if (mActiveCard != null) {
-				mActiveCard.setPos(x - cardXCap, y - cardYCap);
-				invalidate();
+				if (mActiveCard.mOwnerDeck.mDeckType != Deck.DeckType.EWaste1) {
+					mActiveCard.setPos(x - cardXCap, y - cardYCap);
+					invalidate();
+				}
 			}
 			return true;
 
