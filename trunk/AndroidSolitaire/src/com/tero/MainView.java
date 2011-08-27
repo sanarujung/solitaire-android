@@ -131,6 +131,7 @@ public class MainView extends View {
 		if (mSourceDecks.size()==0) {
 			Deck deck = new Deck(Deck.DeckType.ESource, mCardCap*4, cy, mCardSize.width(), mCardSize.height());
 			Card c = mCards.remove(0);
+			c.mTurned = true;
 			deck.addCard(c, false);
 			mSourceDecks.add(deck);
 			
@@ -139,6 +140,7 @@ public class MainView extends View {
 				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
+			c.mTurned = true;
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*6+mCardSize.width()*2, cy, mCardSize.width(), mCardSize.height());
@@ -146,6 +148,7 @@ public class MainView extends View {
 				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
+			c.mTurned = true;
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*7+mCardSize.width()*3, cy, mCardSize.width(), mCardSize.height());
@@ -153,6 +156,7 @@ public class MainView extends View {
 				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
+			c.mTurned = true;
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*8+mCardSize.width()*4, cy, mCardSize.width(), mCardSize.height());
@@ -160,6 +164,7 @@ public class MainView extends View {
 				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
+			c.mTurned = true;
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*9+mCardSize.width()*5, cy, mCardSize.width(), mCardSize.height());
@@ -167,6 +172,7 @@ public class MainView extends View {
 				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
+			c.mTurned = true;
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*10+mCardSize.width()*6, cy, mCardSize.width(), mCardSize.height());
@@ -174,6 +180,7 @@ public class MainView extends View {
 				c = mCards.remove(0);
 				deck.addCard(c, false);
 			}
+			c.mTurned = true;
 			mSourceDecks.add(deck);
 
 
