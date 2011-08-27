@@ -6,6 +6,7 @@
 package com.tero;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -122,22 +123,19 @@ public class MainView extends View {
 		mCards.add(new Card(12, Card.CardLand.ESpade, 0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.spade12));
 		mCards.add(new Card(13, Card.CardLand.ESpade, 0, getResources(), 0, 0, mCardSize.width(), mCardSize.height(), R.raw.spade13));
 		
-		// TODO: Suffle card list by Random
-
-		
-		
-		// Create source decks
+		// Create source decks (random)
 		// Add cards to the source decks
+		Random random = new Random();
 		if (mSourceDecks.size()==0) {
 			Deck deck = new Deck(Deck.DeckType.ESource, mCardCap*4, cy, mCardSize.width(), mCardSize.height());
-			Card c = mCards.remove(0);
+			Card c = mCards.remove(random.nextInt(mCards.size()));
 			c.mTurned = true;
 			deck.addCard(c, false);
 			mSourceDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*5+mCardSize.width(), cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<2;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, false);
 			}
 			c.mTurned = true;
@@ -145,7 +143,7 @@ public class MainView extends View {
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*6+mCardSize.width()*2, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<3;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, false);
 			}
 			c.mTurned = true;
@@ -153,7 +151,7 @@ public class MainView extends View {
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*7+mCardSize.width()*3, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, false);
 			}
 			c.mTurned = true;
@@ -161,7 +159,7 @@ public class MainView extends View {
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*8+mCardSize.width()*4, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<5;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, false);
 			}
 			c.mTurned = true;
@@ -169,7 +167,7 @@ public class MainView extends View {
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*9+mCardSize.width()*5, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<6;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, false);
 			}
 			c.mTurned = true;
@@ -177,7 +175,7 @@ public class MainView extends View {
 			
 			deck = new Deck(Deck.DeckType.ESource, mCardCap*10+mCardSize.width()*6, cy, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<7;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, false);
 			}
 			c.mTurned = true;
@@ -187,28 +185,28 @@ public class MainView extends View {
 			// Create target decks
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*7+mCardSize.width()*3, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*8+mCardSize.width()*4, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 			
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*9+mCardSize.width()*5, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
 
 			deck = new Deck(Deck.DeckType.ETarget, mCardCap*10+mCardSize.width()*6, mCardCap, mCardSize.width(), mCardSize.height());
 			for(int i=0;i<4;i++) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				deck.addCard(c, true);
 			}
 			mTargetDecks.add(deck);
@@ -217,7 +215,7 @@ public class MainView extends View {
 			mWasteDeck = new Deck(Deck.DeckType.EWaste1, mCardCap*4, mCardCap, mCardSize.width(), mCardSize.height());
 
 			while (!mCards.isEmpty()) {
-				c = mCards.remove(0);
+				c = mCards.remove(random.nextInt(mCards.size()));
 				mWasteDeck.addCard(c, true);
 			}
 
