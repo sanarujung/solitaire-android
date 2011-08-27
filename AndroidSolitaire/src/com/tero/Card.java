@@ -17,12 +17,14 @@ public class Card {
 	public int mWidth;
 	public int mHeight;
 	public boolean mVisible = true;
+	public boolean mTurned = false;
 	public int mZ;
 	public Rect mRect;
 
 	public Card mParentCard;
 
 	private Bitmap mBitmap;
+	private Bitmap mBackBitmap;
 	private int mOldX;
 	private int mOldY;
 	private int mX;
@@ -39,7 +41,6 @@ public class Card {
 			int y, int width, int height, int bmpResId) {
 		mCardValue = cardValue;
 		mCardLand = cardLand;
-		mBitmap = BitmapFactory.decodeResource(res, bmpResId);
 		mZ = z;
 		mX = x;
 		mY = y;
@@ -52,15 +53,20 @@ public class Card {
 		options.inScaled = false;
 		options.inDither = true;
 		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-		Bitmap tmp = BitmapFactory.decodeResource(res, bmpResId, options);
+		// Bitmaps
+		Bitmap tmp = BitmapFactory.decodeResource(res, R.raw.cardback);
+		mBackBitmap = Bitmap.createScaledBitmap(tmp, mWidth, mHeight, true);
+		tmp = BitmapFactory.decodeResource(res, bmpResId, options);
 		mBitmap = Bitmap.createScaledBitmap(tmp, mWidth, mHeight, true);
 		tmp = null;
 	}
 
 	public void doDraw(Canvas canvas) {
 		if (mVisible) {
-			canvas.drawBitmap(mBitmap, mRect.left, mRect.top, null);
+			if (mTurned)
+				canvas.drawBitmap(mBitmap, mRect.left, mRect.top, null);
+			else
+				canvas.drawBitmap(mBackBitmap, mRect.left, mRect.top, null);
 		}
 	}
 
