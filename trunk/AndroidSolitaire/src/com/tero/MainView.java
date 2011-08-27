@@ -339,7 +339,7 @@ public class MainView extends View {
 			if (mActiveCard != null) {
 				cardXCap = x - mActiveCard.mRect.left;
 				cardYCap = y - mActiveCard.mRect.top;
-				mActiveCard.storePosition(x - cardXCap, y - cardYCap);
+				mActiveCard.storePosition();
 				enableCache(true);
 				invalidate();
 			}
@@ -392,11 +392,12 @@ public class MainView extends View {
 		if (mActiveCard != null) {
 			Deck fromDeck = mActiveCard.mOwnerDeck;
 			Deck toDeck = getDeckUnderTouch(x, y);
-			if (toDeck != null && fromDeck != toDeck) {
-				boolean topOfOtherCards = true;
+			boolean topOfOtherCards = true;
+			if (toDeck!=null) {
 				if (toDeck.mDeckType == Deck.DeckType.ESource) {
-					topOfOtherCards = false;
+					topOfOtherCards = false; // Drawed exactly top of other cards in the deck
 				}
+				// Accept card move or not?
 				if (acceptCardMove(fromDeck, toDeck, mActiveCard)) {
 					toDeck.addCard(fromDeck, mActiveCard, topOfOtherCards);
 				} else {
@@ -405,6 +406,7 @@ public class MainView extends View {
 			} else {
 				mActiveCard.cancelMove();
 			}
+				
 		}
 		mActiveCard = null;
 	}
@@ -417,11 +419,15 @@ public class MainView extends View {
 			topOfThisCard = to.mCards.get(to.mCards.size()-1);
 		}
 
+		if (from == to && (from.mDeckType != Deck.DeckType.EWaste1 && to.mDeckType != Deck.DeckType.EWaste2))
+			return false;
+		
 		if (topOfThisCard!=null && topOfThisCard.mTurned==false)
 			return false;
 
-		if (to.mDeckType == Deck.DeckType.EWaste1 || to.mDeckType == Deck.DeckType.EWaste2) 
+		if (from.mDeckType != Deck.DeckType.EWaste1 && to.mDeckType == Deck.DeckType.EWaste2) 
 			return false;
+		
 		
 		
 		return ret;

@@ -81,9 +81,9 @@ public class Card {
 		mRect.set(x, y, x + mRect.width(), y + mRect.height());
 	}
 
-	public void storePosition(int x, int y) {
-		mOldX = x;
-		mOldY = y;
+	public void storePosition() {
+		mOldX = mRect.left;
+		mOldY = mRect.top;
 	}
 
 	public void cancelMove() {
