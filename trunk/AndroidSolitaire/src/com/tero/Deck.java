@@ -113,11 +113,11 @@ public class Deck {
 		}
 
 		// If card has parent, do not give it
-		if(c.mParentCard!=null) 
+		if(c != null && c.mParentCard!=null) 
 			return null;
 		
 		// Turn card if needed
-		if (mDeckType == Deck.DeckType.ESource || mDeckType == Deck.DeckType.EWaste1)
+		if (c != null && (mDeckType == Deck.DeckType.ESource || mDeckType == Deck.DeckType.EWaste1))
 			c.mTurned = true;
 		
 		return c;
