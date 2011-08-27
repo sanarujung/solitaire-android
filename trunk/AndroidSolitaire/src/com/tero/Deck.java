@@ -63,8 +63,6 @@ public class Deck {
 
 	public void addCard(Deck fromDeck, Card newCard, boolean justOnTopOfOthers) {
 	
-		// TODO: z oreder
-		
 		// Add card to new deck
 		addCard(newCard, justOnTopOfOthers);
 		
@@ -80,8 +78,6 @@ public class Deck {
 	
 	public void addCard(Card newCard, boolean justOnTopOfOthers) {
 		
-		// TODO: z oreder
-
 		newCard.setDeck(this);
 		
 		if (justOnTopOfOthers) {
@@ -114,9 +110,7 @@ public class Deck {
 	}
 	
 	public void removeCard(Card removeThis) {
-		if (mCards.contains(removeThis)) {
-			mCards.remove(removeThis);
-		}
+		mCards.remove(removeThis);
 	}
 
 	public Card getCardFromPos(int x, int y) {
@@ -136,7 +130,8 @@ public class Deck {
 			return null;
 		
 		// Turn card if needed
-		if (c != null && (mDeckType == Deck.DeckType.ESource || mDeckType == Deck.DeckType.EWaste1))
+		if (c != null && (mDeckType == Deck.DeckType.ESource || mDeckType == Deck.DeckType.EWaste1
+				|| mDeckType == Deck.DeckType.EWaste2)) // TODO: Waste2 only, no Waste1
 			c.mTurned = true;
 		
 		return c;
