@@ -278,11 +278,20 @@ public class MainView extends View {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			mActiveCard = null;
-			// Search card under touch
+			// Search card under source decks
 			for (Deck deck : mSourceDecks) {
 				if (deck.isUnderTouch(x, y)) {
 					mActiveCard = deck.getCardFromPos(x, y);
 					break;
+				} 
+			}
+			// Search card from waste decks
+			if (mActiveCard==null) {
+				if (mWasteDeck.isUnderTouch(x, y)) {
+					mActiveCard = mWasteDeck.getCardFromPos(x, y);
+				} 
+				if (mWasteDeck2.isUnderTouch(x, y)) {
+					mActiveCard = mWasteDeck2.getCardFromPos(x, y);
 				} 
 			}
 			// Card founds?
