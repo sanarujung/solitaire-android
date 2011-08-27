@@ -417,6 +417,7 @@ public class MainView extends View {
 			topOfThisCard = to.mCards.get(to.mCards.size()-1);
 		}
 
+		// Check deck issuess
 		if (topOfThisCard!=null && topOfThisCard.mTurned==false) {
 			return false;
 		}
@@ -427,13 +428,35 @@ public class MainView extends View {
 		if (to.mDeckType != Deck.DeckType.ESource && to.mDeckType != Deck.DeckType.ETarget)
 			return false;
 
+		// Card decks must differ
 		if (from == to)
 			return false;
 
+		// Check cars issuess
+		if(to.mCards.size()>0) {
+			if (to.mDeckType == Deck.DeckType.ESource) {
+				// Card can be top of one step greater card and different color
+                // Card can not be same color
+                if (card.mCardLand == topOfThisCard.mCardLand || topOfThisCard.mCardValue != card.mCardValue + 1 || card.mBlack == topOfThisCard.mBlack)
+                    return false;
+			} else if (to.mDeckType == Deck.DeckType.ETarget) {
+                // Cards must be in ascending order and same suite in 2 target deck
+                if (topOfThisCard.mCardValue + 1 != card.mCardValue || topOfThisCard.mCardLand != card.mCardLand) 
+                    return false;
+			}
+		} else {
+            // Moving top of empty deck
 
-		
-		
-		
+            // If there is no cards in the deck, then the first one must be King card in source decks 1
+            if (to.mCards.size() == 0 &&
+            		card.mCardValue != 13 && to.mDeckType == Deck.DeckType.ESource)
+                return false;
+
+            // Ace card must be the first card in foundation
+            if (to.mDeckType == Deck.DeckType.ETarget && to.mCards.size() == 0 && card.mCardValue != 1)
+                return false;
+		}
+
 		return true;
 	}
 
