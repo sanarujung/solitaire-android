@@ -314,10 +314,10 @@ public class MainView extends View {
 			return true;
 
 		} else if (action == MotionEvent.ACTION_UP) {
+			int x = (int) event.getX();
+			int y = (int) event.getY();
 			enableCache(false);
-			if(mActiveCard!=null)
-				mActiveCard.cancelMove();
-			mActiveCard = null;
+			boolean ret = handleCardMove(x,y);
 			invalidate();
 			return true;
 		}
@@ -325,6 +325,46 @@ public class MainView extends View {
 
 	}
 
+
+	private Deck getDeckUnderTouch(int x, int y) {
+		Deck ret = null;
+		for (Deck deck : mSourceDecks) {
+			if (deck.isUnderTouch(x, y))
+				return deck;
+		}
+		for (Deck deck : mTargetDecks) {
+			if (deck.isUnderTouch(x, y))
+				return deck;
+		}
+		if (mWasteDeck.isUnderTouch(x, y)) {
+			return mWasteDeck;
+		} 
+		if (mWasteDeck2.isUnderTouch(x, y)) {
+			return mWasteDeck2;
+		} 
+		return ret;
+	}
 	
+	private boolean handleCardMove(int x, int y) {
+		boolean ret = false;
+		if(mActiveCard!=null) {
+			Deck fromDeck = mActiveCard.mOwnerDeck;
+			Deck toDeck = getDeckUnderTouch(x,y);
+			if (toDeck!=null && fromDeck != toDeck) {
+				boolean topOfOtherCards = true;
+				if(toDeck.mDeckType == Deck.DeckType.ESource) {
+					topOfOtherCards = false;
+				}
+				toDeck.addCard(fromDeck, mActiveCard, topOfOtherCards);
+				fromDeck.removeCard(mActiveCard);
+			} else {
+				mActiveCard.cancelMove();
+			}
+		
+			//mActiveCard.cancelMove();
+		}
+		mActiveCard = null;
+		return ret;
+	}
 	
 }

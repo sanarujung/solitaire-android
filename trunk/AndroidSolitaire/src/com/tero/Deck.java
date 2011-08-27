@@ -61,8 +61,29 @@ public class Deck {
 		}
 	}
 
-	public void addCard(Card newCard, boolean justOnTopOfOthers) {
+	public void addCard(Deck fromDeck, Card newCard, boolean justOnTopOfOthers) {
+	
+		// TODO: z oreder
+		
+		// Add card to new deck
+		addCard(newCard, justOnTopOfOthers);
+		
+		// Remove card from old deck
+		fromDeck.removeCard(newCard);
 
+		// Null old deck parent card reference
+		if(fromDeck.mCards.size()>0) {
+			Card c = fromDeck.mCards.get(fromDeck.mCards.size()-1);
+			c.mParentCard = null;
+		}
+	}
+	
+	public void addCard(Card newCard, boolean justOnTopOfOthers) {
+		
+		// TODO: z oreder
+
+		newCard.setDeck(this);
+		
 		if (justOnTopOfOthers) {
 			// All cards are just top of other cards
 	        // Set card new position
@@ -80,8 +101,6 @@ public class Deck {
 					mY + mCards.size()*mCardTopCap + newCard.mHeight);
 		}
         
-		// TODO: remove from old deck, this code is somewhere else
-        
 		// Give new z to this most upper card in this deck
         mDeckCardsInternalZ++;
         newCard.mZ = mDeckCardsInternalZ;
@@ -95,9 +114,9 @@ public class Deck {
 	}
 	
 	public void removeCard(Card removeThis) {
-		// TODO: test
-		if (mCards.contains(removeThis))
+		if (mCards.contains(removeThis)) {
 			mCards.remove(removeThis);
+		}
 	}
 
 	public Card getCardFromPos(int x, int y) {
