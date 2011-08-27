@@ -419,6 +419,10 @@ public class MainView extends View {
 
 		if (topOfThisCard!=null && topOfThisCard.mTurned==false)
 			return false;
+
+		if (to.mDeckType == Deck.DeckType.EWaste1 || to.mDeckType == Deck.DeckType.EWaste2) 
+			return false;
+		
 		
 		return ret;
 	}
