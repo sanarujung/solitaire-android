@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class Deck {
 
@@ -67,6 +68,7 @@ public class Deck {
 		addCard(newCard, justOnTopOfOthers);
 		
 		// Remove card from old deck
+		//Log.v("count", Integer.toString(fromDeck.mCards.size()));
 		fromDeck.removeCard(newCard);
 
 		// Null old deck parent card reference
@@ -102,8 +104,9 @@ public class Deck {
         newCard.mZ = mDeckCardsInternalZ;
 
         // Set new card to be pervious card parent
-        if (!mCards.isEmpty())
+        if (!mCards.isEmpty()) {
         	mCards.get(mCards.size()-1).mParentCard = newCard;
+        }
         
         // Add card
         mCards.add(newCard);
