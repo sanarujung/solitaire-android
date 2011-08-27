@@ -412,25 +412,30 @@ public class MainView extends View {
 	}
 
 	private boolean acceptCardMove(Deck from, Deck to, Card card) {
-		boolean ret = true;
-
 		Card topOfThisCard=null;
 		if (to.mCards.size()>0) {
 			topOfThisCard = to.mCards.get(to.mCards.size()-1);
 		}
 
-		if (from == to && (from.mDeckType != Deck.DeckType.EWaste1 && to.mDeckType != Deck.DeckType.EWaste2))
+		if (topOfThisCard!=null && topOfThisCard.mTurned==false) {
 			return false;
+		}
 		
-		if (topOfThisCard!=null && topOfThisCard.mTurned==false)
+		if (from.mDeckType != Deck.DeckType.ESource && from.mDeckType != Deck.DeckType.EWaste2)
 			return false;
 
-		if (from.mDeckType != Deck.DeckType.EWaste1 && to.mDeckType == Deck.DeckType.EWaste2) 
+		if (to.mDeckType != Deck.DeckType.ESource && to.mDeckType != Deck.DeckType.ETarget)
 			return false;
+
+		if (from == to)
+			return false;
+
+
 		
 		
 		
-		return ret;
+		return true;
 	}
 
+	
 }
