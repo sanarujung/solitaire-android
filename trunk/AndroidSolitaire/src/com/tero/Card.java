@@ -24,6 +24,8 @@ public class Card {
 	public Card mParentCard;
 	public Deck mOwnerDeck;
 
+	public boolean mBlack;
+	
 	private Bitmap mBitmap;
 	private Bitmap mBackBitmap;
 	private int mOldX;
@@ -42,6 +44,12 @@ public class Card {
 			int y, int width, int height, int bmpResId) {
 		mCardValue = cardValue;
 		mCardLand = cardLand;
+
+		if (mCardLand == Card.CardLand.ESpade || mCardLand == Card.CardLand.EClub)
+			mBlack = true;
+		else
+			mBlack = false;
+
 		mZ = z;
 		mX = x;
 		mY = y;
