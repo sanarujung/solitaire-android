@@ -393,20 +393,26 @@ public class MainView extends View {
 			Deck fromDeck = mActiveCard.mOwnerDeck;
 			Deck toDeck = getDeckUnderTouch(x, y);
 			boolean topOfOtherCards = true;
-			if (toDeck!=null) {
-				if (toDeck.mDeckType == Deck.DeckType.ESource) {
-					topOfOtherCards = false; // Drawed exactly top of other cards in the deck
-				}
-				// Accept card move or not?
-				if (acceptCardMove(fromDeck, toDeck, mActiveCard)) {
-					toDeck.addCard(fromDeck, mActiveCard, topOfOtherCards);
+
+			if (fromDeck.mDeckType == Deck.DeckType.EWaste1) {
+				// Copy waste cards from Waste1 to Waste2
+				mWasteDeck2.addCard(fromDeck, mActiveCard, true);
+			} else {
+				// Handle card move
+				if (toDeck!=null) {
+					if (toDeck.mDeckType == Deck.DeckType.ESource) {
+						topOfOtherCards = false; // Drawed exactly top of other cards in the deck
+					}
+					// Accept card move or not?
+					if (acceptCardMove(fromDeck, toDeck, mActiveCard)) {
+						toDeck.addCard(fromDeck, mActiveCard, topOfOtherCards);
+					} else {
+						mActiveCard.cancelMove();
+					}
 				} else {
 					mActiveCard.cancelMove();
 				}
-			} else {
-				mActiveCard.cancelMove();
 			}
-				
 		}
 		mActiveCard = null;
 	}
