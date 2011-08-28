@@ -285,7 +285,7 @@ public class MainView extends View {
 		if (enabled && mUseCache != enabled) {
 			mActiveCard.mVisible = false;
 			setDrawingCacheEnabled(true);
-			// buildDrawingCache();
+			//buildDrawingCache();
 			mCacheBitmap = Bitmap.createBitmap(getDrawingCache());
 			mActiveCard.mVisible = true;
 		} else if (!enabled && mUseCache != enabled) {
@@ -316,7 +316,7 @@ public class MainView extends View {
 			mWasteDeck.doDraw(canvas);
 			mWasteDeck2.doDraw(canvas);
 		}
-
+		
 		// Draw active card last
 		if (mActiveCard != null) {
 			mActiveCard.doDraw(canvas);
@@ -333,7 +333,8 @@ public class MainView extends View {
 
 			// Search card under source decks
 			Deck deck = getDeckUnderTouch(x, y);
-			mActiveCard = deck.getCardFromPos(x, y);
+			if (deck != null)
+				mActiveCard = deck.getCardFromPos(x, y);
 
 			// Card founds?
 			if (mActiveCard != null) {
@@ -421,6 +422,7 @@ public class MainView extends View {
 
 	private boolean acceptCardMove(Deck from, Deck to, Card card) {
 		Card topOfThisCard=null;
+
 		if (to.mCards.size()>0) {
 			topOfThisCard = to.mCards.get(to.mCards.size()-1);
 		}

@@ -63,7 +63,7 @@ public class Deck {
 	}
 
 	public void addCard(Deck fromDeck, Card newCard, boolean justOnTopOfOthers) {
-	
+		
 		// Add card to new deck
 		addCard(newCard, justOnTopOfOthers);
 		
@@ -76,6 +76,10 @@ public class Deck {
 			Card c = fromDeck.mCards.get(fromDeck.mCards.size()-1);
 			c.mParentCard = null;
 		}
+		
+		//Log.v("from", Integer.toString(fromDeck.mCards.size()));
+		//Log.v("to", Integer.toString(mCards.size()));
+		
 	}
 	
 	public void addCard(Card newCard, boolean justOnTopOfOthers) {
@@ -85,7 +89,7 @@ public class Deck {
 		if (justOnTopOfOthers) {
 			// All cards are just top of other cards
 	        // Set card new position
-	        newCard.mRect = this.mRect;
+	        newCard.mRect.set(this.mRect);
 		} else {
 			// There is cap on top of all cards
 			// Change deck rectangle height
@@ -99,6 +103,7 @@ public class Deck {
 					mY + mCards.size()*mCardTopCap + newCard.mHeight);
 		}
         
+		
 		// Give new z to this most upper card in this deck
         mDeckCardsInternalZ++;
         newCard.mZ = mDeckCardsInternalZ;
@@ -113,7 +118,9 @@ public class Deck {
 	}
 	
 	public void removeCard(Card removeThis) {
+		//Log.v("count=", Integer.toString(mCards.size()));
 		mCards.remove(removeThis);
+		//Log.v("count=", Integer.toString(mCards.size()));
 	}
 
 	public Card getCardFromPos(int x, int y) {
@@ -134,7 +141,7 @@ public class Deck {
 		
 		// Turn card if needed
 		if (c != null && (mDeckType == Deck.DeckType.ESource || mDeckType == Deck.DeckType.EWaste1
-				|| mDeckType == Deck.DeckType.EWaste2)) // TODO: Waste2 only, no Waste1
+				|| mDeckType == Deck.DeckType.EWaste2))
 			c.mTurned = true;
 		
 		return c;
