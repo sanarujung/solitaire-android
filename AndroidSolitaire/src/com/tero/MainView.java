@@ -276,7 +276,6 @@ public class MainView extends View {
 			mWasteDeck2 = new Deck(Deck.DeckType.EWaste2, mCardCap * 5
 					+ mCardSize.width(), mCardCap, mCardSize.width(),
 					mCardSize.height());
-
 		}
 
 	}
@@ -392,16 +391,17 @@ public class MainView extends View {
 	}
 
 	private void handleCardMove(int x, int y) {
-		if (mActiveCard != null) {
-			Deck fromDeck = mActiveCard.mOwnerDeck;
-			Deck toDeck = getDeckUnderTouch(x, y);
-			boolean topOfOtherCards = true;
+		Deck fromDeck = null;
+		Deck toDeck = getDeckUnderTouch(x, y);
+		boolean topOfOtherCards = true;
 
+		if (mActiveCard != null) {
+			fromDeck = mActiveCard.mOwnerDeck;
 			if (fromDeck.mDeckType == Deck.DeckType.EWaste1) {
 				// Copy waste cards from Waste1 to Waste2
 				mWasteDeck2.addCard(fromDeck, mActiveCard, true);
 			} else {
-				// Handle card move
+				// Handle all other card move
 				if (toDeck!=null) {
 					if (toDeck.mDeckType == Deck.DeckType.ESource) {
 						topOfOtherCards = false; // Drawed exactly top of other cards in the deck
@@ -414,6 +414,17 @@ public class MainView extends View {
 					}
 				} else {
 					mActiveCard.cancelMove(true);
+				}
+			}
+		} else if (toDeck!=null && toDeck.mDeckType==Deck.DeckType.EWaste1) {
+			// Handle Waste1 to/back Waste2 card moves
+			if (toDeck.mCards.size()==0) {
+				// Copy back from Waste2 to Waste1
+				for (int i=0;i<mWasteDeck2.mCards.size();i++) {
+					Card card = mWasteDeck2.mCards.get(i);
+					card.mTurned = false;
+					toDeck.addCard(mWasteDeck2, card, true);
+					i--;
 				}
 			}
 		}
