@@ -16,16 +16,16 @@ public class Card {
 
 	public int mWidth;
 	public int mHeight;
-	public boolean mVisible = true;
+	private boolean mVisible = true;
 	public boolean mTurned = false;
 	public int mZ;
 	public Rect mRect;
 
-	public Card mParentCard;
-	public Deck mOwnerDeck;
+	public Card mParentCard = null;
+	public Deck mOwnerDeck = null;
 
 	public boolean mBlack;
-	
+
 	private Bitmap mBitmap;
 	private Bitmap mBackBitmap;
 	private int mOldX;
@@ -45,7 +45,8 @@ public class Card {
 		mCardValue = cardValue;
 		mCardLand = cardLand;
 
-		if (mCardLand == Card.CardLand.ESpade || mCardLand == Card.CardLand.EClub)
+		if (mCardLand == Card.CardLand.ESpade
+				|| mCardLand == Card.CardLand.EClub)
 			mBlack = true;
 		else
 			mBlack = false;
@@ -73,20 +74,46 @@ public class Card {
 	public void setDeck(Deck d) {
 		mOwnerDeck = d;
 	}
+
+	public boolean isVisible() {
+		return mVisible;
+	}
 	
+	public void setVisible(boolean visible) {
+		mVisible = visible;
+
+		// Visible also parent card?
+		if (mParentCard != null && mOwnerDeck != null
+				&& mOwnerDeck.mDeckType == Deck.DeckType.ESource) {
+			mParentCard.setVisible(visible);
+		}
+	}
+
 	public void doDraw(Canvas canvas) {
 		if (mVisible) {
 			if (mTurned)
 				canvas.drawBitmap(mBitmap, mRect.left, mRect.top, null);
 			else
 				canvas.drawBitmap(mBackBitmap, mRect.left, mRect.top, null);
+
+			// Draw also parent card?
+			if (mParentCard != null && mOwnerDeck != null
+					&& mOwnerDeck.mDeckType == Deck.DeckType.ESource) {
+				mParentCard.doDraw(canvas);
+			}
 		}
 	}
 
-	public void setPos(int x, int y) {
+	public void setPos(int x, int y, boolean parentCardAlso) {
 		mX = x;
 		mY = y;
 		mRect.set(x, y, x + mRect.width(), y + mRect.height());
+
+		// Move also parent card?
+		if (parentCardAlso && mParentCard != null && mOwnerDeck != null
+				&& mOwnerDeck.mDeckType == Deck.DeckType.ESource) {
+			mParentCard.setPos(x, y + mOwnerDeck.mCardTopCap, true);
+		}
 	}
 
 	public void storePosition() {
@@ -94,8 +121,8 @@ public class Card {
 		mOldY = mRect.top;
 	}
 
-	public void cancelMove() {
-		setPos(mOldX, mOldY);
+	public void cancelMove(boolean parentCardAlso) {
+		setPos(mOldX, mOldY, parentCardAlso);
 	}
 
 	public boolean isUnderTouch(int x, int y) {

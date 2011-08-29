@@ -63,12 +63,10 @@ public class Deck {
 	}
 
 	public void addCard(Deck fromDeck, Card newCard, boolean justOnTopOfOthers) {
-		
 		// Add card to new deck
 		addCard(newCard, justOnTopOfOthers);
 		
 		// Remove card from old deck
-		//Log.v("count", Integer.toString(fromDeck.mCards.size()));
 		fromDeck.removeCard(newCard);
 
 		// Null old deck parent card reference
@@ -77,13 +75,17 @@ public class Deck {
 			c.mParentCard = null;
 		}
 		
+		// Add card parent also to this new deck if them exists?
+		if (newCard.mParentCard != null && newCard.mOwnerDeck != null
+				&& newCard.mOwnerDeck.mDeckType == Deck.DeckType.ESource) {
+			addCard(fromDeck,newCard.mParentCard,justOnTopOfOthers);
+		}
+		
 		//Log.v("from", Integer.toString(fromDeck.mCards.size()));
 		//Log.v("to", Integer.toString(mCards.size()));
-		
 	}
 	
 	public void addCard(Card newCard, boolean justOnTopOfOthers) {
-		
 		newCard.setDeck(this);
 		
 		if (justOnTopOfOthers) {
@@ -118,9 +120,7 @@ public class Deck {
 	}
 	
 	public void removeCard(Card removeThis) {
-		//Log.v("count=", Integer.toString(mCards.size()));
 		mCards.remove(removeThis);
-		//Log.v("count=", Integer.toString(mCards.size()));
 	}
 
 	public Card getCardFromPos(int x, int y) {
@@ -135,8 +135,9 @@ public class Deck {
 			}
 		}
 
-		// If card has parent, do not give it
-		if(c != null && c.mParentCard!=null) 
+		// If card has parent AND
+		// it is NOT turned, do not give it
+		if(c != null && c.mParentCard!=null && c.mTurned==false) 
 			return null;
 		
 		// Turn card if needed

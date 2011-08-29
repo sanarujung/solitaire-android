@@ -283,11 +283,11 @@ public class MainView extends View {
 
 	private void enableCache(boolean enabled) {
 		if (enabled && mUseCache != enabled) {
-			mActiveCard.mVisible = false;
+			mActiveCard.setVisible(false);
 			setDrawingCacheEnabled(true);
 			//buildDrawingCache();
 			mCacheBitmap = Bitmap.createBitmap(getDrawingCache());
-			mActiveCard.mVisible = true;
+			mActiveCard.setVisible(true);
 		} else if (!enabled && mUseCache != enabled) {
 			setDrawingCacheEnabled(false);
 			mCacheBitmap = null;
@@ -353,7 +353,7 @@ public class MainView extends View {
 			int y = (int) event.getY();
 			if (mActiveCard != null) {
 				if (mActiveCard.mOwnerDeck.mDeckType != Deck.DeckType.EWaste1) {
-					mActiveCard.setPos(x - cardXCap, y - cardYCap);
+					mActiveCard.setPos(x - cardXCap, y - cardYCap,true);
 					invalidate();
 				}
 			}
@@ -410,10 +410,10 @@ public class MainView extends View {
 					if (acceptCardMove(fromDeck, toDeck, mActiveCard)) {
 						toDeck.addCard(fromDeck, mActiveCard, topOfOtherCards);
 					} else {
-						mActiveCard.cancelMove();
+						mActiveCard.cancelMove(true);
 					}
 				} else {
-					mActiveCard.cancelMove();
+					mActiveCard.cancelMove(true);
 				}
 			}
 		}
